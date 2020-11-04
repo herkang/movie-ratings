@@ -13,7 +13,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, autoincrement= True, primary_key = True)
     email = db.Column(db.String, unique = True)
-    password = db.Colum(db.String)
+    password = db.Column(db.String)
 
     #returns user id and email 
     def __repr__(self):
@@ -28,11 +28,29 @@ class Movie(db.Model):
     title = db.Column(db.String)
     overview = db.Column(db.Text)
     release_date = db.Column(db.DateTime)
-    poster_path = db.Colum(db.String)
+    poster_path = db.Column(db.String)
 
     #returns user id and email 
     def __repr__(self):
         return f'<Movie movie_id = {self.movie_id} title = {self.title}>'
+
+
+class Rating(db.Model):
+    """A movie rating."""
+
+    __tablename__ = 'ratings'
+
+    rating_id = db.Column(db.Integer, autoincrement = True, primary_key = True)
+    score = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer, db.ForeignKey('moves.movie_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    movie = db.relationship('Movie', backref = 'ratings')
+    user = db.relationship('Use', backref = 'ratings')
+
+    def __repr__(self):
+        return f'<Rating ratig_id = {self.rating_id} score = {self.score}>'
+
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
