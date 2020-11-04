@@ -10,6 +10,7 @@ class User(db.Model):
     #create user table named users with 3 cloumns (user_id, email, password)
 
     __tablename__ = 'users'
+
     user_id = db.Column(db.Integer, autoincrement= True, primary_key = True)
     email = db.Column(db.String, unique = True)
     password = db.Colum(db.String)
@@ -17,6 +18,21 @@ class User(db.Model):
     #returns user id and email 
     def __repr__(self):
         return f'<User user_id = {self.user_id} email = {self.email}>'
+
+class Movie(db.Model):
+    """A movie."""
+
+    __tablename__ = 'movies'
+
+    movie_id = db.Column(db.Integer, autoincrement= True, primary_key = True)
+    title = db.Column(db.String)
+    overview = db.Column(db.Text)
+    release_date = db.Column(db.DateTime)
+    poster_path = db.Colum(db.String)
+
+    #returns user id and email 
+    def __repr__(self):
+        return f'<Movie movie_id = {self.movie_id} title = {self.title}>'
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
